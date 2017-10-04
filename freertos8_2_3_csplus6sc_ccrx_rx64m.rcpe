@@ -178,7 +178,6 @@
           <Option>-output=obj=%BuildModeName%\%FileLeaf%.obj</Option>
           <Option>-debug</Option>
           <Option>-outcode=utf8</Option>
-          <Option>-optimize=0</Option>
           <Option>-nologo</Option>
         </CompileOptions>
         <AssembleOptions>
@@ -193,6 +192,7 @@
           <Option>-output=%BuildModeName%\%ProjectName%.abs</Option>
           <Option>-vect=_undefined_interrupt_source_isr</Option>
           <Option>-list=%BuildModeName%\%ProjectName%.map</Option>
+          <Option>-show=total_size</Option>
           <Option>-nooptimize</Option>
           <Option>-start=B_1,R_1,B_2,R_2,B,R,SU,SI/00000004,C_1,C_2,C,C$DSEC,C$BSEC,C$VECT,D_1,D_2,D,P,W_1,W_2,W,L/0FFC00100,EXCEPTVECT/0FFFFFF80,RESETVECT/0FFFFFFFC</Option>
           <Option>-rom=D=R,D_1=R_1,D_2=R_2</Option>

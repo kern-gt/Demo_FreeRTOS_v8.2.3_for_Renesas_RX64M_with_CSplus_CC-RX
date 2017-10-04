@@ -30,16 +30,32 @@
 void vTask1(void *pvParameters)
 {
 	while(1) {
-		//PORTD.DR.BIT.B1 = ~PORTD.DR.BIT.B1;
-		vTaskDelay(1000/portTICK_PERIOD_MS);
+		PORTD.PODR.BIT.B0 = ~PORTD.PODR.BIT.B0;
+		vTaskDelay(125/portTICK_PERIOD_MS);
 	}
 }
 
 void vTask2(void *pvParameters)
 {
 	while(1) {
-		//PORTD.DR.BIT.B2 = ~PORTD.DR.BIT.B2;
-		vTaskDelay(2000/portTICK_PERIOD_MS);
+		PORTD.PODR.BIT.B1 = ~PORTD.PODR.BIT.B1;
+		vTaskDelay(250/portTICK_PERIOD_MS);
+	}
+}
+
+void vTask3(void *pvParameters)
+{
+	while(1) {
+		PORTD.PODR.BIT.B2 = ~PORTD.PODR.BIT.B2;
+		vTaskDelay(500/portTICK_PERIOD_MS);
+	}
+}
+
+void vTask4(void *pvParameters)
+{
+	while(1) {
+		PORTD.PODR.BIT.B3 = ~PORTD.PODR.BIT.B3;
+		vTaskDelay(1000/portTICK_PERIOD_MS);
 	}
 }
 
@@ -85,10 +101,18 @@ void vApplicationSetupTimerInterrupt( void )
 	CMT0.CMCR.BIT.CMIE = 1;
 
 	/* Set the compare match value. */
-	CMT0.CMCOR = ( unsigned short ) ( ( ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ ) -1 ) / 8 );
-
-	/* Divide the PCLK by 8. */
-	CMT0.CMCR.BIT.CKS = 0;
+	if(configTICK_RATE_HZ > 114){
+		/* Divide the PCLK by 8. */
+		CMT0.CMCR.BIT.CKS = 0;
+		CMT0.CMCOR = ( unsigned short ) ( ( ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ ) -1 ) / 8 );
+	}else  if(configTICK_RATE_HZ > 29){
+		/* Divide the PCLK by 32. */
+		CMT0.CMCR.BIT.CKS = 1;
+		CMT0.CMCOR = ( unsigned short ) ( ( ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ ) -1 ) / 32 );
+	}else{
+		/*configTICK_RATE_HZ is very small.*/
+		while(1);
+	}
 
 	/* Enable the interrupt... */
 	_IEN( _CMT0_CMI0 ) = 1;
@@ -116,6 +140,8 @@ void MainApplication(void)
 	/*タスク生成*/
 	xTaskCreate(vTask1,"Task1",100,NULL,1,NULL);
 	xTaskCreate(vTask2,"Task2",100,NULL,1,NULL);
+	xTaskCreate(vTask3,"Task3",100,NULL,1,NULL);
+	xTaskCreate(vTask4,"Task4",100,NULL,1,NULL);
 	
 	/* タスクスケジューラ起動*/
 	vTaskStartScheduler();

@@ -38,6 +38,7 @@
 -output=DefaultBuild\freertos8_2_3_csplus6sc_ccrx_rx64m.abs
 -vect=_undefined_interrupt_source_isr
 -list=DefaultBuild\freertos8_2_3_csplus6sc_ccrx_rx64m.map
+-show=total_size
 -nooptimize
 -start=B_1,R_1,B_2,R_2,B,R,SU,SI/00000004,C_1,C_2,C,C$DSEC,C$BSEC,C$VECT,D_1,D_2,D,P,W_1,W_2,W,L/0FFC00100,EXCEPTVECT/0FFFFFF80,RESETVECT/0FFFFFFFC
 -rom=D=R,D_1=R_1,D_2=R_2
